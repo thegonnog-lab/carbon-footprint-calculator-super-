@@ -1,34 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Carbon Footprint Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            padding: 20px 0;
+        }
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-  <!-- My CSS -->
-  <style>
-    body {
-      font-family: Georgia, "Times New Roman", serif;
-    }
-    .title-box {
-      display: inline-block;
-      border: 2px solid #5b4fcf;
-      padding: 2px 12px;
-      font-size: 1.9rem;
-      font-weight: 700;
-      margin: 0;
-    }
-    .tab-bar {
-      border: 1px solid #4f9fd6;
-      padding: 4px 8px;
-    }
-    .tab-bar .nav-link {
-      color: #3a7ca5;
-      font-size: 0.85rem;
-      padding: 4px 10px;
-    }
-    .tab-bar .nav-link.active {
-      color: #222;
+        .page-header h1 {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .page-header h2 {
+            font-size: 1rem;
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        .page-header img {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .nav-tabs {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .nav-tabs .nav-link {
+            color: #666;
+            border: none;
+            padding: 8px 12px;
+            font-weight: normal;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #27ae60;
+            border-bottom: 2px solid #27ae60;
+        }
+
+        .home-btn {
+            background-color: #27ae60;
+            color: white;
+            padding: 6px 15px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .home-btn:hover {
+            background-color: #229954;
+        }
+
+        .form-card {
+            border: 1px solid #ddd;
+            background-color: white;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            font-size: 0.9rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            border-color: #27ae60;
+            outline: none;
+        }
+
+        .card-footer {
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-prev, .btn-next {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-prev:hover, .btn-next:hover {
+            background-color: #229954;
+        }
+
+        .secondary-heading {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .awareness-text {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .calculate-btn {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .calculate-btn:hover {
+            background-color: #229954;
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Page Header Section -->
+        <div class="page-header">
+            <h1>Carbon Footprint Calculator</h1>
+            <h2 style="font-size: 1.1rem; color: #27ae60; margin-bottom: 15px;">Climate change is real!!</h2>
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='150'%3E%3Crect fill='%23e8f5e9' width='250' height='150'/%3E%3Ccircle cx='125' cy='75' r='40' fill='%2327ae60'/%3E%3Cpath d='M 125 40 Q 110 50 115 65 Q 125 70 135 65 Q 140 50 125 40' fill='%23fff'/%3E%3Cpath d='M 100 90 L 105 100 L 110 95 M 140 90 L 145 100 L 150 95' stroke='%2327ae60' stroke-width='2' fill='none'/%3E%3C/svg%3E" alt="Carbon Footprint - Environmental Sustainability" style="width: 250px; height: 150px; margin-bottom: 15px;">
+            <p>Welcome to the Carbon Footprint Calculator. This tool helps you assess and understand your environmental impact. By calculating your carbon footprint, you can make informed decisions to reduce your environmental impact and contribute to a more sustainable future.</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="row mb-4">
+            <div class="col-md-10">
+                <ul class="nav nav-tabs" id="carbonTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab">General</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab">Home</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="travel-tab" data-bs-toggle="tab" data-bs-target="#travel" type="button" role="tab">Travel</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="food-tab" data-bs-toggle="tab" data-bs-target="#food" type="button" role="tab">Food</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="electronics-tab" data-bs-toggle="tab" data-bs-target="#electronics" type="button" role="tab">Electronic usage</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="shopping-tab" data-bs-toggle="tab" data-bs-target="#shopping" type="button" role="tab">Shopping</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="result-tab" data-bs-toggle="tab" data-bs-target="#result" type="button" role="tab">Result</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-2 text-end">
+                <button class="home-btn">Home</button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="carbonTabContent">
+            <!-- General Tab -->
+            <div class="tab-pane fade show active" id="general" role="tabpanel">
+                <div class="form-card">
+                    <div class="card-header">Fill up the form below</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" class="form-control" id="age" placeholder="Enter your age">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select class="form-control" id="country">
+                                <option>Select a country</option>
+                                <option selected>Saudi Arabia</option>
+                                <option>United Arab Emirates</option>
+                                <option>Kuwait</option>
+                                <option>Qatar</option>
+                                <option>Bahrain</option>
+                                <option>Oman</option>
+                                <option>United States</option>
+                                <option>United Kingdom</option>
+                                <option>India</option>
+                                <option>China</option>
+                                <option>Japan</option>
+                                <option>Germany</option>
+                                <option>France</option>
+                                <option>Canada</option>
+                                <option>Australia</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-prev">Prev</button>
+                        <button class="btn-next">Next</button>
+                    </div>
+                </div>
+                <span class="tab-indicator">Tab</span>
+            </div>
+
+            <!-- Home Tab -->
+            <div class="tab-pane fade" id="home" role="tabpanel">
+                <div class="form-card">
+                    <div class="card-header">Home Energy Usage</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="electricity">Monthly Electricity Usage (kWh)</label>
+                            <input type="number" class="form-control" id="electricity" placeholder="Enter electricity usage">
+                        </div>
+                        <div class="form-group">
+                            <label for="heating">Monthly Heating (Natural Gas in cubic meters)</label>
+                            <input type="number" class="form-control" id="heating" placeholder="Enter heating usage">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-prev">Prev</button>
+                        <button class="btn-next">Next</button>
+                    </div>
+                </div>
+                <span class="tab-indicator">Tab</span>
+            </div>
+
+            <!-- Travel Tab -->
+            <div class="tab-pane fade" id="travel" role="tabpanel">
+                <div class="form-card">
+                    <div class="card-header">Travel Habits</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="carMiles">Monthly Car Travel (miles)</label>
+                            <input type="number" class="form-control" id="carMiles" placeholder="Enter car miles">
+                        </div>
+                        <div class="form-group">
+                            <label for="flights">Annual Flights (number of flights)</label>
+                            <input type="number" class="form-control" id="flights" placeholder="Enter number of flights">
+                        </div>
+                        <div class="form-group">
+                            <label for="publicTransit">Monthly Public Transit Usage (miles)</label>
+                            <input type="number" class="form-control" id="publicTransit" placeholder="Enter public transit miles">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-prev">Prev</button>
+                        <button class="btn-next">Next</button>
+                    </div>
+                </div>
+                <span class="tab-indicator">Tab</span>
+            </div>
+
+            <!-- Food Tab -->
+            <div class="tab-pane fade" id="food" role="tabpanel">
+                <div class="form-card">
+                    <div class="card-header">Food Consumption</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="meatServings">Weekly Meat Servings</label>
+                            <input type="number" class="form-control" id="meatServings" placeholder="Enter number of servings">
+                        </div>
+                        <div class="form-group">
+                            <label for="dairyServings">Weekly Dairy Servings</label>
+                            <input type="number" class="form-control" id="dairyServings" placeholder="Enter number of servings">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-prev">Prev</button>
+                        <button class="btn-next">Next</button>
+                    </div>
+                </div>
+                <span class="tab-indicator">Tab</span>
+            </div>
+
+            <!-- Electronics Tab -->
+            <div class="tab-pane fade" id="electronics" role="tabpanel">
+                <div class="form-card">
+                    <div class="card-header">Electronic Usage</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="screenTime">Daily Screen Time (hours)</label>
+                            <input type="number" class="form-control" id="screenTime" placeholder="Enter hours">
+                        </div>
+                        <div class="form-group">
+                            <label for="devices">Number of Electronic Devices</label>
+                            <input type="number" class="form-control" id="devices" placeholder="Enter number of devices">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-prev">Prev</button>
+                        <button class="btn-next">Next</button>
+                    </div>
+                </div>
+                <span class="tab-indicator">Tab</span>
+            </div>
+
+            <!-- Shopping Tab -->
+            <div class="tab-pane fade" id="shopping" role="tabpanel">
+                <div class="form-card">
+                    <div class="card-header">Shopping Habits</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="newClothes">Monthly New Clothing Purchases</label>
+                            <input type="number" class="form-control" id="newClothes" placeholder="Enter number of items">
+                        </div>
+                        <div class="form-group">
+                            <label for="onlineShopping">Monthly Online Shopping (number of orders)</label>
+                            <input type="number" class="form-control" id="onlineShopping" placeholder="Enter number of orders">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-prev">Prev</button>
+                        <button class="btn-next">Next</button>
+                    </div>
+                </div>
+                <span class="tab-indicator">Tab</span>
+            </div>
+
+            <!-- Result Tab -->
+            <div class="tab-pane fade" id="result" role="tabpanel">
+                <div class="form-card">
+                    <div class="card-header">Your Carbon Footprint Results</div>
+                    <div class="card-body">
+                        <p style="color: #666; line-height: 1.6;">
+                            Your carbon footprint will be calculated based on the information you provided. This value represents the total amount of greenhouse gases (primarily carbon dioxide) generated by your actions.
+                        </p>
+                        <div class="alert alert-info" role="alert">
+                            <strong>Result:</strong> Complete all tabs to see your total carbon footprint calculation.
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-prev">Prev</button>
+                        <button class="btn-next">Submit</button>
+                    </div>
+                </div>
+                <span class="tab-indicator">Tab</span>
+            </div>
+        </div>
+
+        <!-- Secondary Heading and Call to Action -->
+        <div class="row mt-5">
+            <div class="col-md-8">
+                <h4 class="secondary-heading">Start Assessing Your Carbon Footprint Today</h4>
+                <p class="awareness-text">
+                    Understanding your carbon footprint is the first step towards making a positive environmental impact. By knowing how your daily activities contribute to climate change, you can make informed decisions to reduce your carbon emissions. Every small action counts – from choosing sustainable transportation to reducing energy consumption at home. Take the first step today and calculate your carbon footprint.
+                </p>
+                <a href="#" class="calculate-btn">Calculate Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
